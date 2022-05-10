@@ -2,51 +2,47 @@
 using Data.HospitalCountext;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace HospitalProject.Controllers
 {
-    public class WardsController : Controller
+    public class PatientsController : Controller
     {
-         private readonly HospitalContext _context;
-
-        public WardsController(HospitalContext context)
+        private readonly HospitalContext _context;
+        public PatientsController(HospitalContext context)
         {
-            _context= context;
+            _context = context;
         }
-        // GET: WardsController
-        public async Task<ActionResult> Index()
+        public async Task<IActionResult> Index()
         {
-            var context = _context.Wards.Include(t => t.Patient).Include(t => t.Doctors);
-            return View(await _context.Wards.ToListAsync());
+            //ViewBag.UserRole = UserCredentialsHelper.FindUserRole(_context, User);
+            return View(await _context.Patients.ToListAsync());
         }
 
-        // GET: WardsController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        public IActionResult Create()
+        public ActionResult Create()
         {
-            ViewData["PatientId"] = new SelectList(_context.Patients, "Id", "Name");
             return View();
         }
+
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,PatientId,Id")] Ward ward)
+        public async Task<IActionResult> Create([Bind("Name,Symptoms,Id")] Patient patient)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(ward);
+                _context.Add(patient);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProjectId"] = new SelectList(_context.Patients, "Id", "Name", ward.PatientId);
-            return View(ward);
+            return View(patient);
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -56,20 +52,20 @@ namespace HospitalProject.Controllers
                 return NotFound();
             }
 
-            var ward = await _context.Wards.FindAsync(id);
-            if (ward == null)
+            var patient = await _context.Patients.FindAsync(id);
+            if (patient == null)
             {
                 return NotFound();
             }
-            return View(ward);
+            return View(patient);
         }
 
-        
+        // POST: PatientsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,PatientId,Id")] Ward ward)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,Symptoms,Id")] Patient patient)
         {
-            if (id != ward.Id)
+            if (id != patient.Id)
             {
                 return NotFound();
             }
@@ -78,12 +74,12 @@ namespace HospitalProject.Controllers
             {
                 try
                 {
-                    _context.Update(ward);
+                    _context.Update(patient);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!WardExists(ward.Id))
+                    if (!PatientExists(patient.Id))
                     {
                         return NotFound();
                     }
@@ -94,10 +90,9 @@ namespace HospitalProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(ward);
+            return View(patient);
         }
 
-        // GET: WardsController/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -105,31 +100,28 @@ namespace HospitalProject.Controllers
                 return NotFound();
             }
 
-            var ward = await _context.Wards
-                .Include(t => t.Patient)
-                .Include(t => t.Doctors)
+            var patient = await _context.Patients
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (ward == null)
+            if (patient == null)
             {
                 return NotFound();
             }
 
-            return View(ward);
+            return View(patient);
         }
 
-        // POST: Teams/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var ward = await _context.Wards.FindAsync(id);
-            _context.Wards.Remove(ward);
+            var patient = await _context.Patients.FindAsync(id);
+            _context.Patients.Remove(patient);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        private bool WardExists(int id)
+        private bool PatientExists(int id)
         {
-            return _context.Wards.Any(e => e.Id == id);
+            return _context.Patients.Any(e => e.Id == id);
         }
     }
 }
