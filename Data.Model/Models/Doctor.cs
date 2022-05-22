@@ -18,7 +18,7 @@ namespace Data.Entities
         [Required]
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public virtual ICollection<Speciality> Specialitys { get; set; }
+        public Speciality Specialitys { get; set; }
         public int SpecialityId { get; set; }
       
         public int? WardId { get; set; }

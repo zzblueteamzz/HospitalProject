@@ -71,12 +71,12 @@ namespace HospitalProject.Controllers
                     return NotFound();
                 }
 
-                var role = await _context.Roles.FindAsync(id);
-                if (role == null)
+                var speciality = await _context.Specialities.FindAsync(id);
+                if (speciality == null)
                 {
                     return NotFound();
                 }
-                return View(role);
+                return View(speciality);
             }
 
             // POST: Roles/Edit/5
@@ -122,14 +122,14 @@ namespace HospitalProject.Controllers
                     return NotFound();
                 }
 
-                var role = await _context.Specialities
+                var speciality = await _context.Specialities
                     .FirstOrDefaultAsync(m => m.Id == id);
-                if (role == null)
+                if (speciality == null)
                 {
                     return NotFound();
                 }
 
-                return View(role);
+                return View(speciality);
             }
 
             // POST: Roles/Delete/5
@@ -137,8 +137,8 @@ namespace HospitalProject.Controllers
             [ValidateAntiForgeryToken]
             public async Task<IActionResult> DeleteConfirmed(int id)
             {
-                var role = await _context.Roles.FindAsync(id);
-                _context.Roles.Remove(role);
+                var speciality = await _context.Specialities.FindAsync(id);
+                _context.Specialities.Remove(speciality);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

@@ -17,7 +17,7 @@ namespace HospitalProject.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            //ViewBag.UserRole = UserCredentialsHelper.FindUserRole(_context, User);
+           // ViewBag.UserRole = UserCredentialsHelper.FindUserRole(_context, User);
             return View(await _context.Patients.ToListAsync());
         }
 
@@ -60,7 +60,7 @@ namespace HospitalProject.Controllers
             return View(patient);
         }
 
-        // POST: PatientsController/Edit/5
+        // POST: PatientsController/Edit/5asdad
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Name,Symptoms,Id")] Patient patient)

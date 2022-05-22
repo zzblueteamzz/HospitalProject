@@ -42,7 +42,7 @@ namespace HospitalProject.Controllers
         // POST: DoctorsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind("UserName,Password,FirstName,LastName,SpecialityId,WardId,Id")] Doctor doctor)
+        public async Task<ActionResult> Create([Bind("UserName,Password,FirstName,LastName,WardId,Id")] Doctor doctor)
         {
             if (ModelState.IsValid)
             {
@@ -76,7 +76,7 @@ namespace HospitalProject.Controllers
         // POST: DoctorsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserName,Password,FirstName,LastName,SpecialityId,WardId,Id")] Doctor doctor)
+        public async Task<IActionResult> Edit(int id, [Bind("UserName,Password,FirstName,LastName,WardId,Id")] Doctor doctor)
         {
             if (id != doctor.Id)
             {

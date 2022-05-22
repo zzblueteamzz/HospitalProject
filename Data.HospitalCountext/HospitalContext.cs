@@ -3,11 +3,21 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using Data.Model;
+using Microsoft.AspNetCore.Identity;
+using Data.Model.Models;
 
 namespace Data.HospitalCountext
 {
-    public class HospitalContext: IdentityDbContext
+    public class HospitalContext:IdentityDbContext<User,Speciality,int>
     {
+        public HospitalContext()
+        {
+        }
+
+        //public HospitalContext()
+        //{
+        //}
+
         public HospitalContext(DbContextOptions<HospitalContext> options)
                 : base(options)
         {
@@ -21,7 +31,8 @@ namespace Data.HospitalCountext
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlServer("Server = DESKTOP-A77J6HG;; Database = HospitalDataBase; Trusted_connection=True;");
+            base.OnConfiguring(options);
+           // options.UseSqlServer("Server = DESKTOP-A77J6HG; Database = HospitalDataBase; Trusted_connection=True;");
         }
     }
 }
