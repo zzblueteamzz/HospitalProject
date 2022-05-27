@@ -20,7 +20,7 @@ namespace HospitalProject.Controllers
         // GET: DoctorsController
         public async Task<ActionResult> Index()
         {
-            var hospitalContext = _context.Doctors.Include(r => r.Specialitys).Include(r => r.Ward);
+            var hospitalContext = _context.Doctors.Include(r => r.Ward);
             return View(await hospitalContext.ToListAsync());
         }
 
@@ -33,7 +33,7 @@ namespace HospitalProject.Controllers
         // GET: DoctorsController/Create
         public ActionResult Create()
         {
-            ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name");
+            //ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name");
             ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name");
 
             return View();
@@ -50,8 +50,8 @@ namespace HospitalProject.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name", doctor.SpecialityId);
-            ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name", doctor.WardId);
+            //ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name", doctor.SpecialityId);
+            //ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name", doctor.WardId);
             return View(doctor);
         }
 
@@ -68,9 +68,10 @@ namespace HospitalProject.Controllers
             {
                 return NotFound();
             }
-            ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name", doctor.SpecialityId);
-            ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name", doctor.WardId);
-            return View(doctor);
+            //ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name", doctor.SpecialityId);
+            //ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name", doctor.WardId);
+            //return View(doctor);
+            return View();
         }
 
         // POST: DoctorsController/Edit/5
@@ -103,8 +104,8 @@ namespace HospitalProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name", doctor.SpecialityId);
-            ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name", doctor.WardId);
+            //ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name", doctor.SpecialityId);
+            //ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name", doctor.WardId);
             return View(doctor);
         }
 
@@ -117,7 +118,6 @@ namespace HospitalProject.Controllers
             }
 
             var doctor = await _context.Doctors
-                .Include(u => u.Specialitys)
                 .Include(u => u.Ward)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (doctor == null)

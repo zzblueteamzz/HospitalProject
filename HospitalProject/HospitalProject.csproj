@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Data.HospitalCountext\Data.HospitalCountext.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Doctors\" />
+  </ItemGroup>
+
 </Project>

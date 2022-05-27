@@ -26,55 +26,27 @@ namespace Data.HospitalCountext.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("SpecialityId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("WardId")
+                    b.Property<int>("WardId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SpecialityId");
 
+                    b.HasIndex("UserId");
+
                     b.HasIndex("WardId");
 
                     b.ToTable("Doctors");
                 });
 
-            modelBuilder.Entity("Data.Entities.Patient", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Symptoms")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Patients");
-                });
-
-            modelBuilder.Entity("Data.Entities.Speciality", b =>
+            modelBuilder.Entity("Data.Entities.HospitalRoles", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -104,6 +76,24 @@ namespace Data.HospitalCountext.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
+            modelBuilder.Entity("Data.Entities.Patient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Symptoms")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Patients");
+                });
+
             modelBuilder.Entity("Data.Entities.Ward", b =>
                 {
                     b.Property<int>("Id")
@@ -115,9 +105,6 @@ namespace Data.HospitalCountext.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PatientId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("WardId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -147,6 +134,14 @@ namespace Data.HospitalCountext.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -178,6 +173,7 @@ namespace Data.HospitalCountext.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -301,17 +297,27 @@ namespace Data.HospitalCountext.Migrations
 
             modelBuilder.Entity("Data.Entities.Doctor", b =>
                 {
-                    b.HasOne("Data.Entities.Speciality", "Specialitys")
-                        .WithMany("Doctors")
+                    b.HasOne("Data.Entities.HospitalRoles", "Speciality")
+                        .WithMany()
                         .HasForeignKey("SpecialityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Model.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.Ward", "Ward")
                         .WithMany("Doctors")
-                        .HasForeignKey("WardId");
+                        .HasForeignKey("WardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Specialitys");
+                    b.Navigation("Speciality");
+
+                    b.Navigation("User");
 
                     b.Navigation("Ward");
                 });
@@ -327,7 +333,7 @@ namespace Data.HospitalCountext.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("Data.Entities.Speciality", null)
+                    b.HasOne("Data.Entities.HospitalRoles", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -354,7 +360,7 @@ namespace Data.HospitalCountext.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("Data.Entities.Speciality", null)
+                    b.HasOne("Data.Entities.HospitalRoles", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -379,11 +385,6 @@ namespace Data.HospitalCountext.Migrations
             modelBuilder.Entity("Data.Entities.Patient", b =>
                 {
                     b.Navigation("Wards");
-                });
-
-            modelBuilder.Entity("Data.Entities.Speciality", b =>
-                {
-                    b.Navigation("Doctors");
                 });
 
             modelBuilder.Entity("Data.Entities.Ward", b =>

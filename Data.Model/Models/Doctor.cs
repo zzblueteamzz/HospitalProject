@@ -1,29 +1,26 @@
 ﻿
 using Data.Model;
+using Data.Model.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using testing.Interfaces;
 
 namespace Data.Entities
 {
-    public class Doctor : BaseModel
+    public class Doctor : IBaseInterface
     {
-        [Required]
-        public string UserName { get; set; }
-        [Required]
-        public string Password { get; set; }
-        [Required]
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public Speciality Specialitys { get; set; }
-        public int SpecialityId { get; set; }
-      
-        public int? WardId { get; set; }
-        public virtual Ward Ward { get; set; }
-       
+        public int Id { get; set; }
+        public User User { get; set; }
+        public int UserId { get; set; }
 
+        public int SpecialityId { get; set; }
+        public HospitalRoles Speciality { get; set; }
+        public int WardId { get; set; }
+        public virtual Ward Ward { get; set; }
+        
     }
 }

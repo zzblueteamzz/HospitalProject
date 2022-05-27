@@ -8,13 +8,12 @@ using Data.Model.Models;
 
 namespace Data.HospitalCountext
 {
-    public class HospitalContext:IdentityDbContext<User,Speciality,int>
+    public class HospitalContext: IdentityDbContext<User, HospitalRoles, int>
     {
         public HospitalContext()
         {
         }
 
-        //public HospitalContext()
         //{
         //}
 
@@ -23,10 +22,10 @@ namespace Data.HospitalCountext
         {
         }
 
+        public DbSet<HospitalRoles> HospitalRoles { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Ward> Wards { get; set; }
         public DbSet<Patient> Patients { get; set; }
-        public DbSet<Speciality> Specialities { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)

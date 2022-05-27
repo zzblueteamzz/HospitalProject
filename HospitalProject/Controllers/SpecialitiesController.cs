@@ -19,8 +19,9 @@ namespace HospitalProject.Controllers
             // GET: Roles
             public async Task<IActionResult> Index()
             {
-               // ViewBag.UserRole = UserCredentialsHelper.FindUserRole(_context, User);
-                return View(await _context.Specialities.ToListAsync());
+            // ViewBag.UserRole = UserCredentialsHelper.FindUserRole(_context, User);
+            //return View(await _context.Specialities.ToListAsync());
+            return View();
             }
 
             // GET: Roles/Details/5
@@ -30,16 +31,16 @@ namespace HospitalProject.Controllers
                 {
                     return NotFound();
                 }
+            return View();
+            //var speciality = await _context.Specialities
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            //if (speciality == null)
+            //{
+            //    return NotFound();
+            //}
 
-                var speciality = await _context.Specialities
-                    .FirstOrDefaultAsync(m => m.Id == id);
-                if (speciality == null)
-                {
-                    return NotFound();
-                }
-
-                return View(speciality);
-            }
+            //return View(speciality);
+        }
 
             // GET: Roles/Create
             public IActionResult Create()
@@ -52,15 +53,15 @@ namespace HospitalProject.Controllers
             // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
             [HttpPost]
             [ValidateAntiForgeryToken]
-            public async Task<IActionResult> Create([Bind("Name,Id")] Speciality speciality)
+            public async Task<IActionResult> Create([Bind("Name,Id")] HospitalRoles hospitalRoles)
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Add(speciality);
+                    _context.Add(hospitalRoles);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
-                return View(speciality);
+                return View(hospitalRoles);
             }
 
             // GET: Roles/Edit/5
@@ -70,23 +71,23 @@ namespace HospitalProject.Controllers
                 {
                     return NotFound();
                 }
-
-                var speciality = await _context.Specialities.FindAsync(id);
-                if (speciality == null)
-                {
-                    return NotFound();
-                }
-                return View(speciality);
-            }
+            return View();
+            //var speciality = await _context.Specialities.FindAsync(id);
+            //if (speciality == null)
+            //{
+            //    return NotFound();
+            //}
+            //return View(speciality);ValueTask
+        }
 
             // POST: Roles/Edit/5
             // To protect from overposting attacks, enable the specific properties you want to bind to.
             // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
             [HttpPost]
             [ValidateAntiForgeryToken]
-            public async Task<IActionResult> Edit(int id, [Bind("Name,Id")] Speciality speciality)
+            public async Task<IActionResult> Edit(int id, [Bind("Name,Id")] HospitalRoles hospitalRoles)
             {
-                if (id != speciality.Id)
+                if (id != hospitalRoles.Id)
                 {
                     return NotFound();
                 }
@@ -95,12 +96,12 @@ namespace HospitalProject.Controllers
                 {
                     try
                     {
-                        _context.Update(speciality);
+                        _context.Update(hospitalRoles);
                         await _context.SaveChangesAsync();
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        if (!SpecialitiesExists(speciality.Id))
+                        if (!SpecialitiesExists(hospitalRoles.Id))
                         {
                             return NotFound();
                         }
@@ -111,7 +112,7 @@ namespace HospitalProject.Controllers
                     }
                     return RedirectToAction(nameof(Index));
                 }
-                return View(speciality);
+                return View(hospitalRoles);
             }
 
             // GET: Roles/Delete/5
@@ -121,31 +122,33 @@ namespace HospitalProject.Controllers
                 {
                     return NotFound();
                 }
+            return View();
+            //var speciality = await _context.Specialities
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            //if (speciality == null)
+            //{
+            //    return NotFound();
+            //}
 
-                var speciality = await _context.Specialities
-                    .FirstOrDefaultAsync(m => m.Id == id);
-                if (speciality == null)
-                {
-                    return NotFound();
-                }
-
-                return View(speciality);
-            }
+            //return View(speciality);
+        }
 
             // POST: Roles/Delete/5
             [HttpPost, ActionName("Delete")]
             [ValidateAntiForgeryToken]
             public async Task<IActionResult> DeleteConfirmed(int id)
             {
-                var speciality = await _context.Specialities.FindAsync(id);
-                _context.Specialities.Remove(speciality);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+            //var speciality = await _context.Specialities.FindAsync(id);
+            //_context.Specialities.Remove(speciality);
+            //await _context.SaveChangesAsync();
+            //return RedirectToAction(nameof(Index));
+            return View();
+        }
 
             private bool SpecialitiesExists(int id)
             {
-                return _context.Specialities.Any(e => e.Id == id);
+            return false;
+               // return _context.Specialities.Any(e => e.Id == id);
             }
         }
 }

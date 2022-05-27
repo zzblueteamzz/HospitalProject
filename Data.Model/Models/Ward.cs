@@ -4,16 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using testing.Interfaces;
 
 namespace Data.Entities
 {
-    public class Ward:BaseModel
+    public class Ward:IBaseInterface
     {
+        public int Id { get; set; }
         public string Name { get; set; }    
         public int? PatientId { get; set; }
         public virtual Patient Patient { get; set; }
         public virtual ICollection<Doctor> Doctors { get; set; }
        
-        public int? WardId { get; set; }
+       
     }
 }
