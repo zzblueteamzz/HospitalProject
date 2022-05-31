@@ -26,6 +26,15 @@ namespace Data.HospitalCountext.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Contacts")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Knowledge")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<int>("SpecialityId")
                         .HasColumnType("int");
 
@@ -84,7 +93,8 @@ namespace Data.HospitalCountext.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Symptoms")
                         .HasColumnType("nvarchar(max)");
@@ -102,7 +112,8 @@ namespace Data.HospitalCountext.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int?>("PatientId")
                         .HasColumnType("int");
@@ -188,6 +199,48 @@ namespace Data.HospitalCountext.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IdentityRole");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "253abe67-62b8-4e27-813f-eaf81269a2b1",
+                            ConcurrencyStamp = "e7432bd5-32e0-4f10-9dd1-73e68b37a475",
+                            Name = "Nurse",
+                            NormalizedName = "NURSE"
+                        },
+                        new
+                        {
+                            Id = "fed16b46-7549-4be7-9418-fb74a67d38ab",
+                            ConcurrencyStamp = "d606516f-0be6-4e56-8587-356f1e7ebb4e",
+                            Name = "Doctor",
+                            NormalizedName = "DOCTOR"
+                        },
+                        new
+                        {
+                            Id = "6558cefd-ff66-4fee-9702-c6c5a3828e4f",
+                            ConcurrencyStamp = "a91e1bae-ffdd-4e33-b661-2c1a57ccc695",
+                            Name = "HospitalManager",
+                            NormalizedName = "HOSPITALMANAGER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

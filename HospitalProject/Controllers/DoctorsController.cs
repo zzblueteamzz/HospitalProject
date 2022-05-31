@@ -11,38 +11,34 @@ namespace HospitalProject.Controllers
 {
     public class DoctorsController : Controller
     {
-        // GET: DoctorsController
         private readonly HospitalContext _context;
         public DoctorsController(HospitalContext context)
         {
             _context = context;
         }
-        // GET: DoctorsController
         public async Task<ActionResult> Index()
         {
-            var hospitalContext = _context.Doctors.Include(r => r.Ward);
+            var hospitalContext = _context.Doctors.Include(r => r.Ward).Include(r=>r.User).Include(r=>r.Speciality);
             return View(await hospitalContext.ToListAsync());
         }
 
-        // GET: DoctorsController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: DoctorsController/Create
         public ActionResult Create()
         {
-            //ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name");
+            ViewData["Message"] = new SelectList(_context.Users, "Id","FirstName");
+            ViewData["SpecialityId"] = new SelectList(_context.HospitalRoles, "Id", "Name");
             ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name");
 
             return View();
         }
 
-        // POST: DoctorsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind("UserName,Password,FirstName,LastName,WardId,Id")] Doctor doctor)
+        public async Task<ActionResult> Create([Bind("Knowledge,UserId,SpecialityId,WardId,Id")] Doctor doctor)
         {
             if (ModelState.IsValid)
             {
@@ -50,12 +46,12 @@ namespace HospitalProject.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name", doctor.SpecialityId);
-            //ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name", doctor.WardId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "FirstName",doctor.UserId);
+            ViewData["SpecialityId"] = new SelectList(_context.HospitalRoles, "Id", "Name", doctor.SpecialityId);
+            ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name", doctor.WardId);
             return View(doctor);
         }
 
-        // GET: DoctorsController/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -68,16 +64,16 @@ namespace HospitalProject.Controllers
             {
                 return NotFound();
             }
-            //ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name", doctor.SpecialityId);
-            //ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name", doctor.WardId);
-            //return View(doctor);
-            return View();
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "FirstName",doctor.UserId);
+            ViewData["SpecialityId"] = new SelectList(_context.HospitalRoles, "Id", "Name", doctor.SpecialityId);
+            ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name", doctor.WardId);
+            return View(doctor);
+            
         }
 
-        // POST: DoctorsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserName,Password,FirstName,LastName,WardId,Id")] Doctor doctor)
+        public async Task<IActionResult> Edit(int id, [Bind("Knowledge,UserId,SpecialityId,WardId,Id")] Doctor doctor)
         {
             if (id != doctor.Id)
             {
@@ -104,12 +100,12 @@ namespace HospitalProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["SpecialityId"] = new SelectList(_context.Specialities, "Id", "Name", doctor.SpecialityId);
-            //ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name", doctor.WardId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "FirstName", doctor.UserId);
+            ViewData["SpecialityId"] = new SelectList(_context.HospitalRoles, "Id", "Name", doctor.SpecialityId);
+            ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name", doctor.WardId);
             return View(doctor);
         }
 
-        // GET: DoctorsController/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -119,6 +115,8 @@ namespace HospitalProject.Controllers
 
             var doctor = await _context.Doctors
                 .Include(u => u.Ward)
+                .Include(u=>u.User)
+                .Include(u=>u.Speciality)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (doctor == null)
             {

@@ -51,12 +51,26 @@ namespace Data.HospitalCountext.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "IdentityRole",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IdentityRole", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Patients",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Symptoms = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -176,7 +190,7 @@ namespace Data.HospitalCountext.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     PatientId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -196,6 +210,8 @@ namespace Data.HospitalCountext.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Knowledge = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Contacts = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     SpecialityId = table.Column<int>(type: "int", nullable: false),
                     WardId = table.Column<int>(type: "int", nullable: false)
@@ -222,6 +238,21 @@ namespace Data.HospitalCountext.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "IdentityRole",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "253abe67-62b8-4e27-813f-eaf81269a2b1", "e7432bd5-32e0-4f10-9dd1-73e68b37a475", "Nurse", "NURSE" });
+
+            migrationBuilder.InsertData(
+                table: "IdentityRole",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "fed16b46-7549-4be7-9418-fb74a67d38ab", "d606516f-0be6-4e56-8587-356f1e7ebb4e", "Doctor", "DOCTOR" });
+
+            migrationBuilder.InsertData(
+                table: "IdentityRole",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "6558cefd-ff66-4fee-9702-c6c5a3828e4f", "a91e1bae-ffdd-4e33-b661-2c1a57ccc695", "HospitalManager", "HOSPITALMANAGER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -302,6 +333,9 @@ namespace Data.HospitalCountext.Migrations
 
             migrationBuilder.DropTable(
                 name: "Doctors");
+
+            migrationBuilder.DropTable(
+                name: "IdentityRole");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

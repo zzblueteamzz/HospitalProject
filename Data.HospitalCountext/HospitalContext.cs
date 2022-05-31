@@ -27,7 +27,27 @@ namespace Data.HospitalCountext
         public DbSet<Ward> Wards { get; set; }
         public DbSet<Patient> Patients { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<IdentityRole>().HasData(
+            new IdentityRole
+            {
+                Name = "Nurse",
+                NormalizedName = "Nurse".ToUpper()
+            },
+             new IdentityRole
+             {
+                 Name = "Doctor",
+                 NormalizedName = "Doctor".ToUpper()
+             },
+            new IdentityRole
+            {
+                Name = "HospitalManager",
+                NormalizedName = "HospitalManager".ToUpper()
+            });
 
+            base.OnModelCreating(modelBuilder);
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             base.OnConfiguring(options);

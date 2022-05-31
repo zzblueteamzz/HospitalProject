@@ -14,6 +14,10 @@ namespace Data.Entities
     public class Doctor : IBaseInterface
     {
         public int Id { get; set; }
+        [MaxLength(100)]
+        public string Knowledge { get; set; }
+        [Required,MaxLength(100)]
+        public string Contacts { get; set; }
         public User User { get; set; }
         public int UserId { get; set; }
 
