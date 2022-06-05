@@ -19,17 +19,19 @@ namespace HospitalProject.Controllers
         public async Task<ActionResult> Index()
         {
             var hospitalContext = _context.Doctors.Include(r => r.Ward).Include(r=>r.User).Include(r=>r.Speciality);
+            foreach (var item in hospitalContext)
+            {
+
+                item.Ward = _context.Wards.FirstOrDefault(t => t.Id == item.WardId);
+                item.User = _context.Users.FirstOrDefault(t => t.Id == item.UserId);
+            }
             return View(await hospitalContext.ToListAsync());
         }
 
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
 
         public ActionResult Create()
         {
-            ViewData["Message"] = new SelectList(_context.Users, "Id","FirstName");
+            ViewData["UserId"] = new SelectList(_context.Users, "Id","FirstName");
             ViewData["SpecialityId"] = new SelectList(_context.HospitalRoles, "Id", "Name");
             ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name");
 

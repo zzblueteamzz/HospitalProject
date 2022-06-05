@@ -14,6 +14,7 @@ namespace Data.Entities
    
     public class HospitalRoles: IdentityRole<int>
     {
+        
         public HospitalRoles()
         {
 

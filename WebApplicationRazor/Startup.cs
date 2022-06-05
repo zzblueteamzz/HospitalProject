@@ -33,7 +33,7 @@ namespace WebApplicationRazor
             });
             //  services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddIdentity<User,Speciality>().AddEntityFrameworkStores<HospitalContext>();
+            services.AddIdentity<User,HospitalRoles>().AddEntityFrameworkStores<HospitalContext>();
             services.AddRazorPages();
         }
 

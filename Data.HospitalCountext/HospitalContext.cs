@@ -14,8 +14,6 @@ namespace Data.HospitalCountext
         {
         }
 
-        //{
-        //}
 
         public HospitalContext(DbContextOptions<HospitalContext> options)
                 : base(options)
