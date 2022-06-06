@@ -51,20 +51,6 @@ namespace Data.HospitalCountext.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "IdentityRole",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_IdentityRole", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Patients",
                 columns: table => new
                 {
@@ -240,19 +226,19 @@ namespace Data.HospitalCountext.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "IdentityRole",
+                table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "253abe67-62b8-4e27-813f-eaf81269a2b1", "e7432bd5-32e0-4f10-9dd1-73e68b37a475", "Nurse", "NURSE" });
+                values: new object[] { 1, "8a4f808a-24b9-4884-a5a7-b2a9205bdfd7", "Nurse", "NURSE" });
 
             migrationBuilder.InsertData(
-                table: "IdentityRole",
+                table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "fed16b46-7549-4be7-9418-fb74a67d38ab", "d606516f-0be6-4e56-8587-356f1e7ebb4e", "Doctor", "DOCTOR" });
+                values: new object[] { 2, "3e246b53-9c20-4387-af5d-3147361013f5", "Doctor", "DOCTOR" });
 
             migrationBuilder.InsertData(
-                table: "IdentityRole",
+                table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "6558cefd-ff66-4fee-9702-c6c5a3828e4f", "a91e1bae-ffdd-4e33-b661-2c1a57ccc695", "HospitalManager", "HOSPITALMANAGER" });
+                values: new object[] { 3, "db08c68e-291c-400f-a2ef-db811cd64b1c", "HospitalManager", "HOSPITALMANAGER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -333,9 +319,6 @@ namespace Data.HospitalCountext.Migrations
 
             migrationBuilder.DropTable(
                 name: "Doctors");
-
-            migrationBuilder.DropTable(
-                name: "IdentityRole");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

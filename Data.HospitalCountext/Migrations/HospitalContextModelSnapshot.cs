@@ -83,6 +83,29 @@ namespace Data.HospitalCountext.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrencyStamp = "8a4f808a-24b9-4884-a5a7-b2a9205bdfd7",
+                            Name = "Nurse",
+                            NormalizedName = "NURSE"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ConcurrencyStamp = "3e246b53-9c20-4387-af5d-3147361013f5",
+                            Name = "Doctor",
+                            NormalizedName = "DOCTOR"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ConcurrencyStamp = "db08c68e-291c-400f-a2ef-db811cd64b1c",
+                            Name = "HospitalManager",
+                            NormalizedName = "HOSPITALMANAGER"
+                        });
                 });
 
             modelBuilder.Entity("Data.Entities.Patient", b =>
@@ -199,48 +222,6 @@ namespace Data.HospitalCountext.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("IdentityRole");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "253abe67-62b8-4e27-813f-eaf81269a2b1",
-                            ConcurrencyStamp = "e7432bd5-32e0-4f10-9dd1-73e68b37a475",
-                            Name = "Nurse",
-                            NormalizedName = "NURSE"
-                        },
-                        new
-                        {
-                            Id = "fed16b46-7549-4be7-9418-fb74a67d38ab",
-                            ConcurrencyStamp = "d606516f-0be6-4e56-8587-356f1e7ebb4e",
-                            Name = "Doctor",
-                            NormalizedName = "DOCTOR"
-                        },
-                        new
-                        {
-                            Id = "6558cefd-ff66-4fee-9702-c6c5a3828e4f",
-                            ConcurrencyStamp = "a91e1bae-ffdd-4e33-b661-2c1a57ccc695",
-                            Name = "HospitalManager",
-                            NormalizedName = "HOSPITALMANAGER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

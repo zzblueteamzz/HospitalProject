@@ -18,14 +18,14 @@ namespace HospitalProject.Controllers
         }
         public async Task<ActionResult> Index()
         {
-            var hospitalContext = _context.Doctors.Include(r => r.Ward).Include(r=>r.User).Include(r=>r.Speciality);
-            foreach (var item in hospitalContext)
+           var doctors = await _context.Doctors.ToListAsync();
+            foreach (var item in doctors)
             {
-
+                item.Speciality = _context.HospitalRoles.FirstOrDefault(t=>t.Id==item.SpecialityId);
                 item.Ward = _context.Wards.FirstOrDefault(t => t.Id == item.WardId);
                 item.User = _context.Users.FirstOrDefault(t => t.Id == item.UserId);
             }
-            return View(await hospitalContext.ToListAsync());
+            return View( doctors);
         }
 
 
@@ -40,7 +40,7 @@ namespace HospitalProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind("Knowledge,UserId,SpecialityId,WardId,Id")] Doctor doctor)
+        public async Task<ActionResult> Create([Bind("Knowledge,Contacts,UserId,SpecialityId,WardId,Id")] Doctor doctor)
         {
             if (ModelState.IsValid)
             {
@@ -75,7 +75,7 @@ namespace HospitalProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Knowledge,UserId,SpecialityId,WardId,Id")] Doctor doctor)
+        public async Task<IActionResult> Edit(int id, [Bind("Knowledge,Contacts,UserId,SpecialityId,WardId,Id")] Doctor doctor)
         {
             if (id != doctor.Id)
             {

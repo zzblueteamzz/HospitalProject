@@ -20,8 +20,15 @@ namespace HospitalProject.Controllers
         // GET: WardsController
         public async Task<ActionResult> Index()
         {
-            var context = _context.Wards.Include(t => t.Patient).Include(t => t.Doctors);
-            return View(await _context.Wards.ToListAsync());
+            
+            var wards = await _context.Wards.ToListAsync();
+            foreach (var item in wards)
+            {
+                item.Patient = _context.Patients.FirstOrDefault(t => t.Id == item.PatientId);
+
+            }
+            return View(wards);
+            
         }
 
         // GET: WardsController/Details/5
@@ -45,7 +52,7 @@ namespace HospitalProject.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProjectId"] = new SelectList(_context.Patients, "Id", "Name", ward.PatientId);
+            ViewData["PatientId"] = new SelectList(_context.Patients, "Id", "Name", ward.PatientId);
             return View(ward);
         }
 
@@ -61,6 +68,7 @@ namespace HospitalProject.Controllers
             {
                 return NotFound();
             }
+            ViewData["PatientId"] = new SelectList(_context.Patients, "Id", "Name", ward.PatientId);
             return View(ward);
         }
 
@@ -94,6 +102,7 @@ namespace HospitalProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["PatientId"] = new SelectList(_context.Patients, "Id", "Name", ward.PatientId);
             return View(ward);
         }
 

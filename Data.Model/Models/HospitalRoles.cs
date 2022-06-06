@@ -13,7 +13,7 @@ namespace Data.Entities
 {
    
     public class HospitalRoles: IdentityRole<int>
-    {
+    { 
         
         public HospitalRoles()
         {
@@ -23,6 +23,7 @@ namespace Data.Entities
         {
 
         }
+        public override int Id { get; set; }
         [Required, MaxLength(40)]
         public override string Name { get; set; }
         

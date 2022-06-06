@@ -27,22 +27,25 @@ namespace Data.HospitalCountext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<IdentityRole>().HasData(
-            new IdentityRole
+            modelBuilder.Entity<HospitalRoles>().HasData(
+            new HospitalRoles
             {
+                Id = 1,
                 Name = "Nurse",
                 NormalizedName = "Nurse".ToUpper()
             },
-             new IdentityRole
+             new HospitalRoles
              {
+                 Id=2,
                  Name = "Doctor",
                  NormalizedName = "Doctor".ToUpper()
              },
-            new IdentityRole
+            new HospitalRoles
             {
+                Id=3,
                 Name = "HospitalManager",
                 NormalizedName = "HospitalManager".ToUpper()
-            });
+            }) ;
 
             base.OnModelCreating(modelBuilder);
         }

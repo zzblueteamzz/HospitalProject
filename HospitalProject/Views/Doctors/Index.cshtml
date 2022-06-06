@@ -5,10 +5,13 @@
 }
 
 <h1>Index</h1>
-
-<p>
+@if (User.IsInRole("HospitalManager"))
+{
+    <p>
     <a asp-action="Create">Create New</a>
 </p>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -40,13 +43,13 @@
                 @Html.DisplayFor(modelItem => item.Contacts)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UserId)
+                @Html.DisplayFor(modelItem => item.User.FirstName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Speciality.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.WardId)
+                @Html.DisplayFor(modelItem => item.Ward.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
