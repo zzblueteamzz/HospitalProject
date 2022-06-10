@@ -16,11 +16,10 @@ namespace HospitalProject.Controllers
                 _context = context;
             }
 
-            // GET: Roles
+
             public async Task<IActionResult> Index()
             {
-            // ViewBag.UserRole = UserCredentialsHelper.FindUserRole(_context, User);
-            //return View(await _context.Specialities.ToListAsync());
+
             return View();
             }
 

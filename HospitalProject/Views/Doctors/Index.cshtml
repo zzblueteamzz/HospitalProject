@@ -1,11 +1,16 @@
-﻿@model IEnumerable<Data.Entities.Doctor>
+﻿@using Data.Entities
+@using Data.Model.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@model IEnumerable<Data.Entities.Doctor>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-@if (User.IsInRole("HospitalManager"))
+
+@if(SignInManager.IsSignedIn(User))
 {
     <p>
     <a asp-action="Create">Create New</a>
@@ -52,9 +57,11 @@
                 @Html.DisplayFor(modelItem => item.Ward.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                  @if (SignInManager.IsSignedIn(User))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    }
             </td>
         </tr>
 }

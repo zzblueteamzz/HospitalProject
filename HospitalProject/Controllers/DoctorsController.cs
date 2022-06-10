@@ -1,5 +1,6 @@
 ﻿using Data.Entities;
 using Data.HospitalCountext;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace HospitalProject.Controllers
 {
+    
     public class DoctorsController : Controller
     {
         private readonly HospitalContext _context;
@@ -28,7 +30,7 @@ namespace HospitalProject.Controllers
             return View( doctors);
         }
 
-
+        [Authorize]
         public ActionResult Create()
         {
             ViewData["UserId"] = new SelectList(_context.Users, "Id","FirstName");
@@ -37,7 +39,7 @@ namespace HospitalProject.Controllers
 
             return View();
         }
-
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind("Knowledge,Contacts,UserId,SpecialityId,WardId,Id")] Doctor doctor)
@@ -53,7 +55,7 @@ namespace HospitalProject.Controllers
             ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name", doctor.WardId);
             return View(doctor);
         }
-
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,7 +74,7 @@ namespace HospitalProject.Controllers
             return View(doctor);
             
         }
-
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Knowledge,Contacts,UserId,SpecialityId,WardId,Id")] Doctor doctor)
@@ -107,7 +109,7 @@ namespace HospitalProject.Controllers
             ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name", doctor.WardId);
             return View(doctor);
         }
-
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -128,7 +130,7 @@ namespace HospitalProject.Controllers
             return View(doctor);
         }
 
-        // POST: DoctorsController/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

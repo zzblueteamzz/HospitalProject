@@ -1,14 +1,21 @@
-﻿@model IEnumerable<Data.Entities.Ward>
+﻿@using Data.Entities
+@using Data.Model.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@model IEnumerable<Data.Entities.Ward>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
-<p>
+@if(SignInManager.IsSignedIn(User))
+{
+    <p>
     <a asp-action="Create">Create New</a>
 </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -31,9 +38,11 @@
                 @Html.DisplayFor(modelItem => item.Patient.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                  @if (SignInManager.IsSignedIn(User))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    }
             </td>
         </tr>
 }

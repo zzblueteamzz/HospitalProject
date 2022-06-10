@@ -1,5 +1,6 @@
 ﻿using Data.Entities;
 using Data.HospitalCountext;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,23 +16,18 @@ namespace HospitalProject.Controllers
         {
             _context = context;
         }
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-           // ViewBag.UserRole = UserCredentialsHelper.FindUserRole(_context, User);
             return View(await _context.Patients.ToListAsync());
         }
-
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
+        [Authorize]
         public ActionResult Create()
         {
             return View();
         }
 
-        
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Symptoms,Id")] Patient patient)
@@ -44,7 +40,7 @@ namespace HospitalProject.Controllers
             }
             return View(patient);
         }
-
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -60,7 +56,7 @@ namespace HospitalProject.Controllers
             return View(patient);
         }
 
-        // POST: PatientsController/Edit/5asdad
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Name,Symptoms,Id")] Patient patient)
@@ -92,7 +88,7 @@ namespace HospitalProject.Controllers
             }
             return View(patient);
         }
-
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -109,7 +105,7 @@ namespace HospitalProject.Controllers
 
             return View(patient);
         }
-
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

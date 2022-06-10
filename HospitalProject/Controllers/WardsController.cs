@@ -1,5 +1,6 @@
 ﻿using Data.Entities;
 using Data.HospitalCountext;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,7 +18,6 @@ namespace HospitalProject.Controllers
         {
             _context= context;
         }
-        // GET: WardsController
         public async Task<ActionResult> Index()
         {
             
@@ -25,23 +25,17 @@ namespace HospitalProject.Controllers
             foreach (var item in wards)
             {
                 item.Patient = _context.Patients.FirstOrDefault(t => t.Id == item.PatientId);
-
             }
             return View(wards);
             
         }
-
-        // GET: WardsController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["PatientId"] = new SelectList(_context.Patients, "Id", "Name");
             return View();
         }
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,PatientId,Id")] Ward ward)
@@ -55,7 +49,7 @@ namespace HospitalProject.Controllers
             ViewData["PatientId"] = new SelectList(_context.Patients, "Id", "Name", ward.PatientId);
             return View(ward);
         }
-
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,7 +66,7 @@ namespace HospitalProject.Controllers
             return View(ward);
         }
 
-        
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Name,PatientId,Id")] Ward ward)
@@ -106,7 +100,7 @@ namespace HospitalProject.Controllers
             return View(ward);
         }
 
-        // GET: WardsController/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,8 +119,7 @@ namespace HospitalProject.Controllers
 
             return View(ward);
         }
-
-        // POST: Teams/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
