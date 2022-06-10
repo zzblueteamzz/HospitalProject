@@ -1,9 +1,11 @@
 ﻿using Data.Entities;
 using Data.HospitalCountext;
+using HospitalProject.Paging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,9 +19,27 @@ namespace HospitalProject.Controllers
             _context = context;
         }
         [Authorize]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder,string currentFilter, string searchString,int? pageNumber)
         {
-            return View(await _context.Patients.ToListAsync());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["CurrentFilter"] = searchString;
+            var patients = from s in _context.Patients
+                           select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                patients = patients.Where(s => s.Name.Contains(searchString));
+            }
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            int pageSize = 5;
+            return View(await Paganating<Patient>.CreateAsync(patients.AsNoTracking(), pageNumber ?? 1, pageSize));
+        
         }
         [Authorize]
         public ActionResult Create()
