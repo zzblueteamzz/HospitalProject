@@ -12,18 +12,24 @@ namespace Service.DoctorService
 {
     public class DoctorService:IDoctorService
     {
-        private readonly HospitalContext dbContext;
+        private readonly HospitalContext hospitalContext;
         private readonly IMapper mapper;
 
         public DoctorService(HospitalContext dbContext, IMapper mapper)
         {
-            this.dbContext = dbContext;
+            this.hospitalContext = dbContext;
             this.mapper = mapper;
         }
         public async Task<IEnumerable<T>> GetAsync<T>()
         {
 
-            return await dbContext.Doctors.ProjectTo<T>(mapper.ConfigurationProvider).ToArrayAsync();
+            return await hospitalContext.Doctors.ProjectTo<T>(mapper.ConfigurationProvider).ToArrayAsync();
+        }
+        public async Task Delete(int id)
+        {
+            var doctor = await hospitalContext.Doctors.FindAsync(id);
+            hospitalContext.Doctors.Remove(doctor);
+            await hospitalContext.SaveChangesAsync();
         }
     }
 }

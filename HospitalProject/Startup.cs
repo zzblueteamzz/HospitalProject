@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Service;
 using Service.DoctorService;
 using Service.PatientService;
+using Service.WardService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,7 @@ namespace HospitalProject
             services.AddTransient<IPatientPaginatingService, PatientPaginatingService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddTransient<IDoctorService, DoctorService>();
+            services.AddTransient<IWardService, WardService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

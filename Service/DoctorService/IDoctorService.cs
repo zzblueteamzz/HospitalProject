@@ -9,5 +9,6 @@ namespace Service.DoctorService
     public interface IDoctorService
     {
        public Task<IEnumerable<T>> GetAsync<T>();
+        public  Task Delete(int id);
     }
 }

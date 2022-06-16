@@ -18,6 +18,9 @@ namespace Service.Mapper
 
             CreateMap<PatientViewModel, Patient>();
             CreateMap<Patient, PatientViewModel>();
+
+            CreateMap<WardViewModel, Ward>();
+            CreateMap<Ward, WardViewModel>();
         }
         
     }

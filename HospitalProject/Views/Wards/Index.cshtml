@@ -1,9 +1,10 @@
 ﻿@using Data.Entities
 @using Data.Model.Models
+@using Data.ViewModels
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
-@model IEnumerable<Data.Entities.Ward>
+@model IEnumerable<WardViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -23,7 +24,7 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Patient)
+                Patient
             </th>
             <th></th>
         </tr>
@@ -35,7 +36,7 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Patient.Name)
+                @Html.DisplayFor(modelItem => item.PatientName)
             </td>
             <td>
                   @if (SignInManager.IsSignedIn(User))

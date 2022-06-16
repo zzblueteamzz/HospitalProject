@@ -110,34 +110,9 @@ namespace HospitalProject.Controllers
             return View(doctor);
         }
         [Authorize]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var doctor = await _context.Doctors
-                .Include(u => u.Ward)
-                .Include(u=>u.User)
-                .Include(u=>u.Speciality)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (doctor == null)
-            {
-                return NotFound();
-            }
-
-            return View(doctor);
-        }
-
-        [Authorize]
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var doctor = await _context.Doctors.FindAsync(id);
-            _context.Doctors.Remove(doctor);
-            await _context.SaveChangesAsync();
+            await doctorService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
         private bool DoctorExists(int id)
