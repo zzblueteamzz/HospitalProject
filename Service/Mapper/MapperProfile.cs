@@ -16,11 +16,17 @@ namespace Service.Mapper
             CreateMap<DoctorViewModel, Doctor>();
             CreateMap<Doctor, DoctorViewModel>();
 
+            CreateMap<DoctorCreateViewModel, Doctor>();
+            CreateMap<Doctor, DoctorCreateViewModel>();
+
             CreateMap<PatientViewModel, Patient>();
             CreateMap<Patient, PatientViewModel>();
 
             CreateMap<WardViewModel, Ward>();
             CreateMap<Ward, WardViewModel>();
+
+            CreateMap<WardCreateViewModel, Ward>();
+            CreateMap<Ward, WardCreateViewModel>();
         }
         
     }

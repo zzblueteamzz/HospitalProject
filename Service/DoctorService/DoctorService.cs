@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Data.Entities;
 using Data.HospitalCountext;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -23,6 +24,24 @@ namespace Service.DoctorService
         public async Task<IEnumerable<T>> GetAsync<T>()
         {
             return await hospitalContext.Doctors.ProjectTo<T>(mapper.ConfigurationProvider).ToArrayAsync();
+        }
+        public async Task<T> GetASS<T>(int id)
+        {
+
+            return await hospitalContext.Doctors.Where(s => s.Id == id).ProjectTo<T>(mapper.ConfigurationProvider).FirstOrDefaultAsync();
+        }
+        public async Task CreateAsync<T>(T model)
+        {
+            var doctor = mapper.Map<Doctor>(model);
+            await hospitalContext.AddAsync(doctor);
+            await hospitalContext.SaveChangesAsync();
+
+        }
+        public async Task Update<T>(T model)
+        {
+            var doctor = mapper.Map<Doctor>(model);
+            hospitalContext.Update(doctor);
+            await hospitalContext.SaveChangesAsync();
         }
         public async Task Delete(int id)
         {

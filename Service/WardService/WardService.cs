@@ -27,10 +27,21 @@ namespace Service.WardService
 
             return await hospitalContext.Wards.ProjectTo<T>(mapper.ConfigurationProvider).ToArrayAsync();
         }
+        public async Task<T> GetASS<T>(int id)
+        {
+
+            return await hospitalContext.Wards.Where(s => s.Id == id).ProjectTo<T>(mapper.ConfigurationProvider).FirstOrDefaultAsync();
+        }
         public async Task CreateAsync<T>(T model)
         {
-            var patiet = mapper.Map<Ward>(model);
-            await hospitalContext.AddAsync(patiet);
+            var ward = mapper.Map<Ward>(model);
+            await hospitalContext.AddAsync(ward);
+            await hospitalContext.SaveChangesAsync();
+        }
+        public async Task Update<T>(T model)
+        {
+            var ward = mapper.Map<Ward>(model);
+            hospitalContext.Update(ward);
             await hospitalContext.SaveChangesAsync();
         }
         public async Task Delete(int id)

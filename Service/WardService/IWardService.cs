@@ -9,7 +9,9 @@ namespace Service.WardService
     public interface IWardService
     {
         public Task<IEnumerable<T>> GetAsync<T>();
+        public Task<T> GetASS<T>(int id);
         public Task CreateAsync<T>(T model);
+        public Task Update<T>(T model);
         public Task Delete(int id);
     }
 }

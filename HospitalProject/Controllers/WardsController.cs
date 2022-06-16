@@ -37,66 +37,41 @@ namespace HospitalProject.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,PatientId,Id")] Ward ward)
+        public async Task<IActionResult> Create(WardCreateViewModel wardCreateViewModel)
         {
-            if (ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
-                context.Add(ward);
-                await context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View(wardCreateViewModel);
             }
-            ViewData["PatientId"] = new SelectList(context.Patients, "Id", "Name", ward.PatientId);
-            return View(ward);
+            await this.wardService.CreateAsync(wardCreateViewModel);
+            return RedirectToAction(nameof(Index));
         }
         [Authorize]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var ward = await context.Wards.FindAsync(id);
+            var ward = await this.wardService.GetASS<WardCreateViewModel>(id);
             if (ward == null)
             {
                 return NotFound();
             }
-            ViewData["PatientId"] = new SelectList(context.Patients, "Id", "Name", ward.PatientId);
+            ViewData["PatientId"] = new SelectList(context.Patients, "Id", "Name");
             return View(ward);
         }
 
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,PatientId,Id")] Ward ward)
+        public async Task<IActionResult> Edit(WardCreateViewModel wardCreateViewModel)
         {
-            if (id != ward.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    context.Update(ward);
-                    await context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!WardExists(ward.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await wardService.Update(wardCreateViewModel);
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PatientId"] = new SelectList(context.Patients, "Id", "Name", ward.PatientId);
-            return View(ward);
+            return View(wardCreateViewModel);
         }
 
         [Authorize]

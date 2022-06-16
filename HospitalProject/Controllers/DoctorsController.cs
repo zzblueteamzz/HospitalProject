@@ -41,32 +41,25 @@ namespace HospitalProject.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind("Knowledge,Contacts,UserId,SpecialityId,WardId,Id")] Doctor doctor)
+        public async Task<IActionResult> Create(DoctorCreateViewModel doctorCreateViewModel)
         {
-            if (ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
-                _context.Add(doctor);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View(doctorCreateViewModel);
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "FirstName",doctor.UserId);
-            ViewData["SpecialityId"] = new SelectList(_context.HospitalRoles, "Id", "Name", doctor.SpecialityId);
-            ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name", doctor.WardId);
-            return View(doctor);
+            await this.doctorService.CreateAsync(doctorCreateViewModel);
+            return RedirectToAction(nameof(Index));
         }
         [Authorize]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var doctor = await _context.Doctors.FindAsync(id);
+            var doctor = await this.doctorService.GetASS<DoctorCreateViewModel>(id);
             if (doctor == null)
             {
                 return NotFound();
             }
+            
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "FirstName",doctor.UserId);
             ViewData["SpecialityId"] = new SelectList(_context.HospitalRoles, "Id", "Name", doctor.SpecialityId);
             ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name", doctor.WardId);
@@ -76,37 +69,15 @@ namespace HospitalProject.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Knowledge,Contacts,UserId,SpecialityId,WardId,Id")] Doctor doctor)
+        public async Task<IActionResult> Edit(DoctorCreateViewModel doctorCreateViewModel)
         {
-            if (id != doctor.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(doctor);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DoctorExists(doctor.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await doctorService.Update(doctorCreateViewModel);
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "FirstName", doctor.UserId);
-            ViewData["SpecialityId"] = new SelectList(_context.HospitalRoles, "Id", "Name", doctor.SpecialityId);
-            ViewData["WardId"] = new SelectList(_context.Wards, "Id", "Name", doctor.WardId);
-            return View(doctor);
+            return View(doctorCreateViewModel);
         }
         [Authorize]
         public async Task<IActionResult> Delete(int id)
