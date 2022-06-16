@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Service;
+using Service.DoctorService;
+using Service.PatientService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +40,10 @@ namespace HospitalProject
             services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<HospitalContext>();
             services.AddControllersWithViews();
+            services.AddTransient<IPatientService, PatientService>();
+            services.AddTransient<IPatientPaginatingService, PatientPaginatingService>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddTransient<IDoctorService, DoctorService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

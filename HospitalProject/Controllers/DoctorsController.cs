@@ -1,10 +1,12 @@
 ﻿using Data.Entities;
 using Data.HospitalCountext;
+using Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Service.DoctorService;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,19 +16,17 @@ namespace HospitalProject.Controllers
     public class DoctorsController : Controller
     {
         private readonly HospitalContext _context;
-        public DoctorsController(HospitalContext context)
+        private readonly IDoctorService doctorService;
+        public DoctorsController(HospitalContext context, IDoctorService doctorService)
         {
             _context = context;
+            this.doctorService = doctorService;
+
         }
         public async Task<ActionResult> Index()
         {
-           var doctors = await _context.Doctors.ToListAsync();
-            foreach (var item in doctors)
-            {
-                item.Speciality = _context.HospitalRoles.FirstOrDefault(t=>t.Id==item.SpecialityId);
-                item.Ward = _context.Wards.FirstOrDefault(t => t.Id == item.WardId);
-                item.User = _context.Users.FirstOrDefault(t => t.Id == item.UserId);
-            }
+            var doctors = await doctorService.GetAsync<DoctorViewModel>();
+            
             return View( doctors);
         }
 

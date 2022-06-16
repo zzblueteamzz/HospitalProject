@@ -1,11 +1,12 @@
 ﻿@using Data.Entities
 @using Data.Model.Models
+@using Data.ViewModels
 @using HospitalProject.Paging
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 @*@model IEnumerable<Data.Entities.Patient>*@
-@model Paganating<Data.Entities.Patient>
+@model PaginationViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -41,7 +42,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.PageItems) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)

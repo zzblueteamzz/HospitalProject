@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.HospitalCountext", "Da
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{590AB618-B7F2-440F-AED5-AA260CC4E56D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplicationRazor", "WebApplicationRazor\WebApplicationRazor.csproj", "{5ADAB019-0572-40C6-A420-779E2D157CD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplicationRazor", "WebApplicationRazor\WebApplicationRazor.csproj", "{5ADAB019-0572-40C6-A420-779E2D157CD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.ViewModels", "Data.ViewModels\Data.ViewModels.csproj", "{38D6454A-2332-44D5-B279-D58E83A71AAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{5ADAB019-0572-40C6-A420-779E2D157CD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5ADAB019-0572-40C6-A420-779E2D157CD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5ADAB019-0572-40C6-A420-779E2D157CD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38D6454A-2332-44D5-B279-D58E83A71AAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38D6454A-2332-44D5-B279-D58E83A71AAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38D6454A-2332-44D5-B279-D58E83A71AAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38D6454A-2332-44D5-B279-D58E83A71AAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
