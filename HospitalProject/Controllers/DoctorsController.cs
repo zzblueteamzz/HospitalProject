@@ -25,8 +25,7 @@ namespace HospitalProject.Controllers
         }
         public async Task<ActionResult> Index()
         {
-            var doctors = await doctorService.GetAsync<DoctorViewModel>();
-            
+            var doctors = await doctorService.GetAsync<DoctorViewModel>();            
             return View( doctors);
         }
 

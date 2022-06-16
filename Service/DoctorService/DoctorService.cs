@@ -22,7 +22,6 @@ namespace Service.DoctorService
         }
         public async Task<IEnumerable<T>> GetAsync<T>()
         {
-
             return await hospitalContext.Doctors.ProjectTo<T>(mapper.ConfigurationProvider).ToArrayAsync();
         }
         public async Task Delete(int id)
